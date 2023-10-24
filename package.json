@@ -1,6 +1,6 @@
 {
   "name": "react-native-simple-recyclerlistview",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "This is a high performance listview for React Native and Web with support for complex layouts. JS only with no native dependencies, inspired by both RecyclerView on Android and UICollectionView on iOS.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
