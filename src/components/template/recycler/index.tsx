@@ -1,0 +1,141 @@
+import { ActivityIndicator, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  DataProvider,
+  LayoutProvider,
+  RecyclerListView,
+} from 'recyclerlistview';
+import styles from './styles';
+
+import type { DimProps, RecyclerProps, RecyclerState } from './props';
+
+class Recycler extends Component<RecyclerProps, RecyclerState> {
+  layoutProvider: LayoutProvider;
+  state: RecyclerState;
+
+  constructor(props: any) {
+    super(props);
+
+    //state
+    this.state = {
+      list: new DataProvider((r1, r2) => r1 !== r2), // Use 'r1 !== r2' for comparison
+      dataList: [],
+      loading: true,
+    };
+
+    //ref
+    this.layoutProvider = new LayoutProvider(
+      (i) => {
+        return this.state.list.getDataForIndex(i).type;
+      },
+      (_type, dim: DimProps) => {
+        (dim.width = this.props.width), (dim.height = this.props.height);
+      }
+    );
+  }
+
+  // load Data using ref
+  loadDataFromApi = (data: any) => {
+    this.setState({ loading: true });
+    this.state.dataList.splice(0, this.state.dataList.length);
+    if (data.length !== 0) {
+      for (let i in data) {
+        this.state.dataList.push({
+          type: 'NORMAL',
+          item: data[i],
+        });
+        if (parseInt(i) == data.length - 1) {
+          this.setState({
+            list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
+              this.state.dataList
+            ),
+          });
+          this.setState({ loading: false });
+        }
+      }
+    } else {
+      this.setState({ loading: false });
+    }
+  };
+
+  SpliceData(index: number) {
+    const oldData = Object.assign([], this.state.dataList);
+    oldData.splice(index, 1);
+
+    this.setState({
+      dataList: oldData,
+    });
+    this.setState({
+      list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
+        this.state.dataList
+      ),
+    });
+  }
+
+  sliceData(start: number, end: number) {
+    const oldData = Object.assign([], this.state.dataList);
+    oldData.slice(start, end);
+
+    this.setState({
+      dataList: oldData,
+    });
+    this.setState({
+      list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
+        this.state.dataList
+      ),
+    });
+  }
+
+  render() {
+    const { dataList, list, loading } = this.state;
+    return (
+      <View style={styles.container}>
+        {loading == false ? (
+          <>
+            {dataList.length !== 0 ? (
+              <RecyclerListView
+                style={{ flex: 1 }}
+                dataProvider={list}
+                canChangeSize={this.props?.canChangeSize}
+                rowRenderer={this.props?.rowRenderer}
+                renderFooter={this.props?.renderFooter}
+                externalScrollView={this.props?.externalScrollView}
+                layoutProvider={this.layoutProvider}
+                forceNonDeterministicRendering={
+                  this.props?.forceNonDeterministicRendering ?? true
+                }
+                scrollViewProps={this.props?.scrollViewProps}
+                isHorizontal={this.props?.horizontal}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                extendedState={{ state: dataList }}
+                onScroll={this.props?.onScroll}
+              />
+            ) : (
+              <View style={styles.EmptyTextView}>
+                <Text style={[this.props.emptyTextStyle]}>
+                  {this.props.emptyText}
+                </Text>
+              </View>
+            )}
+          </>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator
+              color={this.props.activityColor}
+              size={this.props.activitySize ?? 'large'}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
+}
+
+export default Recycler;
