@@ -1,7 +1,7 @@
 # react-native-simple-recyclerlistview
 
 [![npm version](https://img.shields.io/npm/v/react-native-simple-recyclerlistview.svg)](https://www.npmjs.com/package/react-native-simple-recyclerlistview)
-[![appveyor](https://ci.appveyor.com/api/projects/status/uwnp3r49127esj7k/branch/master?svg=true)](https://ci.appveyor.com/project/naqvitalha/recyclerlistview/branch/master)
+[![appveyor](https://ci.appveyor.com/api/projects/status/uwnp3r49127esj7k/branch/master?svg=true)](https://ci.appveyor.com/project/abhi3691/react-native-simple-recyclerlistview)
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 If this project has helped you out, please support us with a star :star2:.
@@ -141,7 +141,7 @@ const dimensions = Dimensions.get('window');
 export default function App() {
   const recyclerRef = React.useRef < SimpleRecycler > null;
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     loadData();
   }, []);
 

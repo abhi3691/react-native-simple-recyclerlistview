@@ -12,7 +12,7 @@ const dimensions = Dimensions.get('window');
 export default function App() {
   const recyclerRef = React.useRef<SimpleRecycler>(null);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     loadData();
   }, []);
 

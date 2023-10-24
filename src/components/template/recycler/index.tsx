@@ -90,11 +90,11 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
     const { dataList, list, loading } = this.state;
     return (
       <View style={styles.container}>
-        {loading == false ? (
+        {loading === false ? (
           <>
             {dataList.length !== 0 ? (
               <RecyclerListView
-                style={{ flex: 1 }}
+                style={styles.container}
                 dataProvider={list}
                 canChangeSize={this.props?.canChangeSize}
                 rowRenderer={this.props?.rowRenderer}

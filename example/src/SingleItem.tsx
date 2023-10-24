@@ -28,7 +28,7 @@ const SingleItem: FC<props> = ({
         <Text
           style={[
             styles.textStyle,
-            { color: item?.isSelected ? 'green' : 'red' },
+            { color: item?.isSelected === true ? 'green' : 'red' },
           ]}
         >
           {item?.isSelected ? '✓' : 'x'}
