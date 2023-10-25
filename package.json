@@ -26,13 +26,11 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-simple-recyclerlistview-example",
-    "test": "jest",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli lib",
-    "prepare": "bob build",
-    "release": "release-it"
+    "build": "sh scripts/build.sh",
+    "clean": "sh scripts/clean.sh",
+    "release": "sh scripts/publish-latest.sh",
+    "release-beta": "sh scripts/publish-beta.sh",
+    "release-local": "sh scripts/publish-local.sh"
   },
   "keywords": [
     "react-native",
