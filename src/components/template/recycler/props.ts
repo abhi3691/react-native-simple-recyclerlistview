@@ -24,6 +24,8 @@ export interface RecyclerProps {
   emptyText: string;
   emptyTextStyle: TextStyle;
   scrollViewProps?: object;
+  onEndReached?: any;
+  onItemLayout?: any;
 }
 
 export interface RecyclerState {

@@ -9,5 +9,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
   },
+  activityContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 export default styles;

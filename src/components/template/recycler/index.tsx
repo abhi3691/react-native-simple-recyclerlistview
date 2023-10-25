@@ -44,7 +44,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
           type: 'NORMAL',
           item: data[i],
         });
-        if (parseInt(i) == data.length - 1) {
+        if (parseInt(i) === data.length - 1) {
           this.setState({
             list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
               this.state.dataList
@@ -110,6 +110,8 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
                 showsHorizontalScrollIndicator={false}
                 extendedState={{ state: dataList }}
                 onScroll={this.props?.onScroll}
+                onEndReached={this.props?.onEndReached}
+                onItemLayout={this.props?.onItemLayout}
               />
             ) : (
               <View style={styles.EmptyTextView}>
@@ -120,13 +122,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
             )}
           </>
         ) : (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.activityContainer}>
             <ActivityIndicator
               color={this.props.activityColor}
               size={this.props.activitySize ?? 'large'}
