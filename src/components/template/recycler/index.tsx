@@ -58,6 +58,30 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
     }
   };
 
+  // load moreData using ref
+  loadMoreData = (data: any) => {
+    this.setState({ loading: true });
+    if (data.length !== 0) {
+      for (let i in data) {
+        this.state.dataList.push({
+          type: 'NORMAL',
+          item: data[i],
+        });
+        if (parseInt(i) === data.length - 1) {
+          this.setState({
+            list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
+              this.state.dataList
+            ),
+          });
+          this.setState({ loading: false });
+        }
+      }
+    } else {
+      this.setState({ loading: false });
+    }
+  };
+
+  //delte item using ref
   SpliceData(index: number) {
     const oldData = Object.assign([], this.state.dataList);
     oldData.splice(index, 1);
@@ -72,6 +96,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
     });
   }
 
+  //delte group of items using ref
   sliceData(start: number, end: number) {
     const oldData = Object.assign([], this.state.dataList);
     oldData.slice(start, end);
