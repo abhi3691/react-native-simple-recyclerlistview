@@ -12,6 +12,8 @@ import type { DimProps, RecyclerProps, RecyclerState } from './props';
 class Recycler extends Component<RecyclerProps, RecyclerState> {
   layoutProvider: LayoutProvider;
   state: RecyclerState;
+  scrollViewRef:any ;
+
 
   constructor(props: any) {
     super(props);
@@ -111,6 +113,16 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
     });
   }
 
+  scrollToEnd() {
+    if (this.scrollViewRef.current) {
+      setTimeout(() => {
+        this.scrollViewRef.current._scrollViewRef.scrollToEnd({animated:true})
+
+      }, 500);
+    }
+  }
+
+
   render() {
     const { dataList, list, loading } = this.state;
     return (
@@ -129,6 +141,9 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
                 forceNonDeterministicRendering={
                   this.props?.forceNonDeterministicRendering ?? true
                 }
+                ref={ref => {
+                  this.scrollViewRef = ref;
+                }}
                 scrollViewProps={this.props?.scrollViewProps}
                 isHorizontal={this.props?.horizontal}
                 showsVerticalScrollIndicator={false}
