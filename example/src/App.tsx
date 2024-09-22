@@ -1,6 +1,13 @@
 import * as React from 'react';
 
-import { StyleSheet, Dimensions, SafeAreaView, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  Alert,
+  View,
+  TextInput,
+} from 'react-native';
 import {
   DataProvider,
   SimpleRecycler,
@@ -47,42 +54,65 @@ export default function App() {
     ]);
   }, []);
 
+  const addItem = React.useCallback((e: string) => {
+    let item = {
+      id: 2,
+      name: e,
+      age: 21,
+      isSelected: false,
+    };
+    recyclerRef?.current?.addItem(item);
+    setTimeout(() => {
+      recyclerRef?.current?.scrollToEnd();
+    }, 100);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <SimpleRecycler
-        emptyText="No Data Found"
-        height={dimensions.height}
-        width={dimensions.width}
-        rowRenderer={(_type, data, index, _extendedState) => {
-          return (
-            <SingleItem
-              item={data?.item}
-              index={index}
-              updateSelection={updateSelection}
-              deleteItem={deleteItem}
-            />
-          );
-        }}
-        ref={recyclerRef}
-        emptyTextStyle={{
-          fontSize: 12,
-          color: 'gray',
-        }}
-      />
+      <View style={styles.container}>
+        <TextInput
+          style={{ backgroundColor: 'red', padding: 20, marginBottom: 20 }}
+          placeholder="entern"
+          onChangeText={addItem}
+        />
+        <SimpleRecycler
+          emptyText="No Data Found"
+          height={dimensions.height}
+          width={dimensions.width}
+          rowRenderer={(_type, data, index, _extendedState) => {
+            return (
+              <SingleItem
+                item={data?.item}
+                index={index}
+                updateSelection={updateSelection}
+                deleteItem={deleteItem}
+              />
+            );
+          }}
+          ref={recyclerRef}
+          emptyTextStyle={{
+            fontSize: 12,
+            color: 'gray',
+          }}
+          renderFooter={() => <View style={styles.footer} />}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: dimensions.height,
+    width: dimensions.width,
     backgroundColor: '#d2d2d2',
   },
   box: {
     width: 60,
     height: 60,
     marginVertical: 20,
+  },
+  footer: {
+    height: 200,
   },
 });

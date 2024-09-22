@@ -12,8 +12,7 @@ import type { DimProps, RecyclerProps, RecyclerState } from './props';
 class Recycler extends Component<RecyclerProps, RecyclerState> {
   layoutProvider: LayoutProvider;
   state: RecyclerState;
-  scrollViewRef:any ;
-
+  scrollViewRef: any;
 
   constructor(props: any) {
     super(props);
@@ -46,7 +45,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
           type: 'NORMAL',
           item: data[i],
         });
-        if (parseInt(i) === data.length - 1) {
+        if (parseInt(i, 10) === data.length - 1) {
           this.setState({
             list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
               this.state.dataList
@@ -69,7 +68,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
           type: 'NORMAL',
           item: data[i],
         });
-        if (parseInt(i) === data.length - 1) {
+        if (parseInt(i, 10) === data.length - 1) {
           this.setState({
             list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
               this.state.dataList
@@ -81,6 +80,20 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
     } else {
       this.setState({ loading: false });
     }
+  };
+
+  addItem = (item: any) => {
+    this.setState({ loading: true });
+    this.state.dataList.push({
+      type: 'NORMAL',
+      item: item,
+    });
+    this.setState({
+      list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(
+        this.state.dataList
+      ),
+    });
+    this.setState({ loading: false });
   };
 
   //delte item using ref
@@ -114,14 +127,14 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
   }
 
   scrollToEnd() {
-    if (this.scrollViewRef.current) {
+    if (this.scrollViewRef) {
       setTimeout(() => {
-        this.scrollViewRef.current._scrollViewRef.scrollToEnd({animated:true})
-
+        this.scrollViewRef?._scrollComponent?._scrollViewRef.scrollToEnd({
+          animated: true,
+        });
       }, 500);
     }
   }
-
 
   render() {
     const { dataList, list, loading } = this.state;
@@ -141,7 +154,7 @@ class Recycler extends Component<RecyclerProps, RecyclerState> {
                 forceNonDeterministicRendering={
                   this.props?.forceNonDeterministicRendering ?? true
                 }
-                ref={ref => {
+                ref={(ref) => {
                   this.scrollViewRef = ref;
                 }}
                 scrollViewProps={this.props?.scrollViewProps}
